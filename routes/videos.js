@@ -1,9 +1,17 @@
 var express = require('express');
 var router = express.Router();
+require('../models/users');
+
+var ctrlAuth = require('../controllers/authentication');
 
 var mongoose = require('mongoose');
 var dbURI = 'mongodb://localhost:27017/vidzy';
 mongoose.connect(dbURI);
+
+
+
+
+
 
 var videoSchema = new mongoose.Schema({
     title: String,
@@ -108,5 +116,6 @@ router.delete('/:id', function(req, res){
     res.json(video);
 })
     });
+
 
 module.exports = router;
