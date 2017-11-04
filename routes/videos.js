@@ -2,6 +2,12 @@ var express = require('express');
 var router = express.Router();
 require('../models/users');
 
+var jwt = require('express-jwt');
+var auth = jwt({
+ secret: 'secret',
+ userProperty: 'payload'
+});
+
 var ctrlAuth = require('../controllers/authentication');
 
 var mongoose = require('mongoose');
@@ -21,7 +27,7 @@ var videoSchema = new mongoose.Schema({
 
 var VideoModel = mongoose.model('VideoModel', videoSchema, 'videos');
 
-router.get('/', function(req, res) {
+router.get('/', auth, function(req, res) {
 //    var collection = db.get('videos');
 //    collection.find({}, function(err, videos){
 //        if (err) throw err;
@@ -34,7 +40,7 @@ VideoModel.find({}, function(err, videos){
     });
 });
 
-router.post('/', function(req, res){
+router.post('/', auth, function(req, res){
 /*   var collection = db.get('videos');
    collection.insert({
         title: req.body.title,
@@ -57,7 +63,7 @@ router.post('/', function(req, res){
 
 });
 
-router.get('/:id', function(req, res) {
+router.get('/:id', auth, function(req, res) {
 /*    var collection = db.get('videos');
     collection.findOne({ _id: req.params.id }, function(err, video){
         if (err) throw err;
@@ -72,7 +78,7 @@ router.get('/:id', function(req, res) {
     });
 });
 
-router.put('/:id', function(req, res){
+router.put('/:id', auth, function(req, res){
 /*    var collection = db.get('videos');
     collection.update({
         _id: req.params.id
@@ -99,7 +105,7 @@ router.put('/:id', function(req, res){
     });
 });
 
-router.delete('/:id', function(req, res){
+router.delete('/:id', auth, function(req, res){
 /*    var collection = db.get('videos');
     collection.remove({
         _id: req.params.id

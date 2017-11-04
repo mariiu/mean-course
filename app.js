@@ -13,7 +13,7 @@ var users = require('./models/users');
 require('./config/passport');
 var index = require('./routes/index');
 //var users = require('./routes/users');
-
+//require('./services/authentication.service');
 var app = express();
 
 // view engine setup
@@ -29,6 +29,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(passport.initialize());
+
 app.use(function(err,req,res,next) {
     if(err.name === 'UnauthorizedError') {
         res.status(401);
